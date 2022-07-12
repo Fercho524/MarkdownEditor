@@ -1,0 +1,20 @@
+textarea {
+    height: 80vh;
+    font-family: monospace;
+}
+
+blockquote{
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    text-align: center;
+}
+
+.center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content > .marked{
+    background: yellow;
+}
