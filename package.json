@@ -1,10 +1,10 @@
 {
-  "name": "notaa",
+  "name": "noteblocks",
   "version": "1.0.0",
   "description": "La aplicación debe cumplir con los siguientes requerimientos: - La interfaz está dividida en 3 columnas, la primera muestra una lista con las carpetas, la segunda muestra una lista con todos los archivos txt y md, y la tercera (inactiva por ahora), sólo un text area que ocupa todo el espacio. - La navegación se realiza através de un directorio base, es decir, que no se puede salir un directorio arriba de este. Aparte del directorio base, se tiene un directorio actual, que es donde se obtiene la lista de archivos y directorios. - La lista de directorios debe tener un item al inicio que contenga el texto \"..\" y permita navegar al directorio superior, sin salir del directorio base, la forma de navegación es simple, al dar click en un directorio, se cambia el directorio actual y por lo tanto, se vuelve a renderizar las listas de directorios y archivos.",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron src"
   },
   "keywords": [],
   "author": "",

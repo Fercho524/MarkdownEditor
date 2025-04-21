@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+  <title>Configuración</title>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; overflow: auto; }
+    body { font-family: sans-serif; padding: 20px; box-sizing: border-box; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input[type="text"], input[type="number"], select { width: 100%; max-width: 400px; padding: 5px; box-sizing: border-box; }
+    .list-item { display: flex; align-items: center; margin-bottom: 5px; }
+    .list-item input { flex: 1; }
+    .list-item button { margin-left: 5px; }
+    .buttons { margin-top: 20px; }
+    .buttons button { margin-right: 10px; padding: 5px 10px; }
+    #favoriteDirsContainer { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Configuración</h1>
+
+  <form id="configForm">
+    <!-- Favorite Dirs -->
+    <label>Directorios Favoritos:</label>
+    <div id="favoriteDirsContainer"></div>
+    <button type="button" id="addFavoriteDir">Agregar Directorio</button>
+
+    <!-- Current Base Dir -->
+    <label for="currentBaseDir">Directorio Base Actual:</label>
+    <select id="currentBaseDir" name="currentBaseDir"></select>
+
+    <!-- Otros campos -->
+    <label for="globalThemeCSSPath">Ruta CSS Tema Global:</label>
+    <input type="text" id="globalThemeCSSPath" name="globalThemeCSSPath" />
+
+    <label for="editorThemeCSSPath">Ruta CSS Tema Editor:</label>
+    <input type="text" id="editorThemeCSSPath" name="editorThemeCSSPath" />
+
+    <label for="editorMonospaceFont">Fuente Monospace:</label>
+    <input type="text" id="editorMonospaceFont" name="editorMonospaceFont" />
+
+    <label for="editorLanguage">Idioma del Editor:</label>
+    <input type="text" id="editorLanguage" name="editorLanguage" />
+
+    <label for="dateFormat">Formato de Fecha:</label>
+    <input type="text" id="dateFormat" name="dateFormat" />
+
+    <label for="sintaxTheme">Tema de Sintaxis:</label>
+    <input type="text" id="sintaxTheme" name="sintaxTheme" />
+
+    <label for="pdfSize">Tamaño PDF:</label>
+    <select id="pdfSize" name="pdfSize">
+      <option value="A4">A4</option>
+      <option value="A5">A5</option>
+      <option value="Letter">Letter</option>
+      <option value="Legal">Legal</option>
+    </select>
+
+    <label for="editorFontSize">Tamaño de Fuente del Editor (px):</label>
+    <input type="number" id="editorFontSize" name="editorFontSize" min="8" max="72" />
+
+    <label><input type="checkbox" id="autosave" name="autosave" /> Autoguardado</label>
+
+    <div class="buttons">
+      <button type="button" id="cancelBtn">Cancelar</button>
+      <button type="button" id="applyBtn">Aplicar</button>
+      <button type="button" id="acceptBtn">Aceptar</button>
+    </div>
+  </form>
+
+  <script src="settings.js"></script>
+</body>
+</html>
