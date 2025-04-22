@@ -67,7 +67,7 @@ function saveConfig() {
 
 
 // User Notes Directory
-app.setName('MarkdownEditor');
+app.setName('Noteblocks');
 
 let config = loadConfig();
 let currentBaseDir = config.currentBaseDir || (config.favoriteDirs[0] || getUserDocumentsDir());
@@ -81,6 +81,8 @@ function ensureInsideBase(target) {
 function createWindow() {
   const win = new BrowserWindow({
     width: 1000, height: 600,
+    title: "Noteblocks",
+    icon: path.join(__dirname, 'rendered', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -101,17 +103,18 @@ function createWindow() {
     }
   });
 
-  win.loadURL(`file://${path.join(__dirname, 'rendered/index.html')}`);
+  win.loadURL(`file://${path.join(__dirname, 'rendered','index.html')}`);
 
   ipcMain.handle('open-settings', () => {
     // Si prefieres abrir en la misma ventana:
-    win.loadFile('rendered/settings.html');
+    win.loadFile(path.join(__dirname, 'rendered', 'settings.html'));
     // Si quisieras ventana nueva, invocarías createSettingsWindow()
   });
 
   ipcMain.handle('navigate-to', (event, page) => {
     // Carga index.html o settings.html según page
-    win.loadFile(page);
+    //win.loadFile(page);
+    win.loadURL(`file://${path.join(__dirname, 'rendered',page)}`);
   });
 }
 

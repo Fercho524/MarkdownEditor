@@ -1,2 +1,5 @@
 katex
 node_modules
+build
+dist
+src/rendered/styles/katex

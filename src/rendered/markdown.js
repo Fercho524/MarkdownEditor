@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderMarkdown() {
         mdRender.innerHTML = html2MarkDown(mdArea.value);
-        
+
         // Katex function to render math.
         renderMathInElement(mdRender, {
             delimiters: [
@@ -22,6 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
         renderMarkdown()
         if (currentFilePath) fileStates[currentFilePath].edited = true;
     });
+
+    mdArea.addEventListener('focusout', async () => {
+        if (currentFileName) {
+            const content = mdArea.value;
+            await window.api.saveFile(currentFileName, content);
+            console.log('Guardado automático por inactividad');
+        }
+    })
 
     // Avoid Default Tab
     mdArea.addEventListener('keydown', e => {

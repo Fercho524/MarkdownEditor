@@ -52,7 +52,7 @@ async function renderDirFiles() {
     const pathStr = rel ? `${rel}/${name}` : name;
     const li = document.createElement('li');
     li.classList.add('list-group-item'); li.dataset.path = pathStr;
-    const icon = document.createElement('i'); icon.classList.add('icon', 'icon-note'); li.append(icon);
+    const icon = document.createElement('i'); icon.classList.add('icon', 'icon-doc-text'); li.append(icon);
     const span = document.createElement('span'); span.textContent = name; li.append(span);
     li.classList.toggle('active', pathStr === currentFilePath);
     li.onclick = () => openFile(pathStr, true);

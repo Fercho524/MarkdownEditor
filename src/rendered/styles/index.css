@@ -246,3 +246,11 @@
 .list-group .icon {
     padding-right: 20px;
 }
+
+#noteSearch {
+    font-size: 8pt;
+}
+
+.pane-sm {
+    width: 30vw !important;
+}
