@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+  <title>Noteblocks</title>
+
+  <!-- Latex Rendering -->
+  <link rel="stylesheet" href="styles/katex/katex.min.css" />
+  <script src="styles/katex/katex.min.js"></script>
+  <script src="styles/katex/contrib/auto-render.js"></script>
+
+  <!-- App Styles -->
+  <!-- <link rel="stylesheet" href="styles/index.css" />
+  <link rel="stylesheet" href="styles/editor.css" /> -->
+
+  <link rel="stylesheet" href="styles/photon/css/photon.min.css">
+  <link rel="stylesheet" href="styles/index.css">
+
+
+</head>
+
+<body>
+  <div class="app-container window">
+    <div class="window-content">
+      <!-- Notebooks -->
+      <div class="pane-sm sidebar" id="dirsColumn">
+        <div class="toolbar">
+          <select id="baseDirSelect"></select>
+          <button id="newDirBtn">+ Libreta</button>
+        </div>
+        <ul id="dirs"></ul>
+      </div>
+
+      <!-- Notes -->
+      <div class="pane-sm" id="filesColumn">
+        <div class="toolbar">
+          <button id="newFileBtn">+ Nota</button>
+        </div>
+        <ul class="list-group" id="files"></ul>
+      </div>
+
+      <div class="pane" id="editorColumn">
+
+        <!-- Pestañas -->
+        <ul class="tab-group" id="tabs"></ul>
+
+        <!-- Toolbar y Botones -->
+        <div class="toolbar">
+          <div class="toolbar-actions">
+            <button class="btn btn-default" id="backBtn" disabled>
+              <span class="icon icon-left-open-big"></span>
+            </button>
+            <button class="btn btn-default" id="forwardBtn" disabled>
+              <span class="icon icon-right-open-big"></span>
+            </button>
+            <button class="btn btn-default" id="saveBtn" disabled>
+              <span class="icon icon-floppy"></span>
+            </button>
+            <button class="btn btn-default" id="toggleViewBtn" disabled>
+              <span class="icon icon-layout"></span>
+            </button>
+            <button class="btn btn-default" id="openSettingsBtn">
+              <span class="icon icon-cog"></span>
+            </button>
+          </div>
+        </div>
+
+
+        <!-- Editor -->
+        <div  id="editorContainer">
+          <textarea id="editor" disabled placeholder="Selecciona un archivo..."></textarea>
+          <div id="content" class="rendered"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <dialog id="inputDialog">
+      <form method="dialog">
+        <p id="dialogLabel">Etiqueta</p>
+        <input id="dialogInput" class="dlg-input" type="text" />
+        <div class="dlg-buttons">
+          <button id="cancelBtn" value="cancel">Cancelar</button>
+          <button id="confirmBtn" value="confirm">OK</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="preload.js"></script>
+
+    <!-- GUI -->
+    <script src="utils.js"></script>
+    <script src="tabs.js"></script>
+    <script src="toolbar.js"></script>
+    <script src="notebar.js"></script>
+
+    <!-- Markdown -->
+    <script src="compiler.js"></script>
+    <script src="markdown.js"></script>
+</body>
+
+</html>

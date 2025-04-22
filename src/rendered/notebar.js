@@ -1,92 +1,3 @@
-# Markdown Editor
-
-Aún quedan errores en la parte de las pestañas:
-- Las pestañas abiertas se obtienen de la configuración guardada, al iniciar el programa se añade una pestaña nula al final, esto para control.
-- Cuando se abre un archivo, este se fija al final del array de las pestañas ya que la última pestaña siempre será la pestaña temporal, si el usuario escribe algo (evento input), la pestaña nula se quita, se coloca el archivo modificado en la barra de pestañas, y se añade una pestaña nula al final. Si se abre un archivo que ya está en la lista de pestañas, no se mueve al final, se mantiene igual todo.
-- Si se da click en una pestaña que se ha fijado, esta no se cambia de posición, sólo se muestra como activa.
-
-Este es el código de tabs.js
-
-function renderTabs() {
-  const tabsUl = document.getElementById('tabs');
-  tabsUl.className = 'tab-group';
-  tabsUl.innerHTML = '';
-
-  openTabs.forEach(pathStr => {
-    const parts = splitPath(pathStr);
-    const label = parts.pop();
-
-    const li = document.createElement('li');
-    li.className = 'tab-item';
-    if (pathStr === currentFilePath) li.classList.add('active');
-
-    const innerDiv = document.createElement('div');
-    innerDiv.className = 'tab-inner';
-    innerDiv.style.display = 'flex';
-    innerDiv.style.alignItems = 'center';
-    innerDiv.style.justifyContent = 'space-between';
-    innerDiv.style.width = '100%';
-    innerDiv.style.gap = '8px';
-    innerDiv.style.pointerEvents = 'auto';
-
-    const labelSpan = document.createElement('span');
-    labelSpan.textContent = label;
-    labelSpan.style.flex = '1';
-    labelSpan.style.cursor = 'pointer';
-
-    // Abrir archivo (clic izquierdo)
-    li.onclick = (e) => {
-      if (e.button === 0) openFile(pathStr, false);
-    };
-
-    // Cerrar con clic medio
-    li.onauxclick = (e) => {
-      if (e.button === 1) {
-        e.preventDefault();
-        closeTab(pathStr);
-      }
-    };
-
-    // Botón de cerrar
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'close-tab';
-    closeBtn.innerHTML = '&times;';
-    closeBtn.style.border = 'none';
-    closeBtn.style.background = 'transparent';
-    closeBtn.style.cursor = 'pointer';
-    closeBtn.style.pointerEvents = 'auto'; // Importante
-
-    closeBtn.addEventListener('mousedown', (e) => {
-      closeTab(pathStr);
-    });
-
-    innerDiv.appendChild(labelSpan);
-    innerDiv.appendChild(closeBtn);
-    li.appendChild(innerDiv);
-    tabsUl.appendChild(li);
-  });
-}
-
-
-function closeTab(pathStr) {
-  openTabs = openTabs.filter(p => p !== pathStr);
-  window.api.updateConfig({ currentOpenedFiles: openTabs });
-  if (currentFilePath === pathStr) {
-    if (openTabs.length) openFile(openTabs[openTabs.length - 1], false);
-    else { currentFilePath = null; clearEditor(); }
-  }
-  renderTabs();
-}
-
-function highlightActiveFile() {
-  document.querySelectorAll('#files li').forEach(li => {
-    li.classList.toggle('active', li.dataset.path === currentFilePath);
-  });
-}
-
-
-Este es el código de notebar.js
-
 // === notebar.js ===
 
 // Inicializa el select de directorios base
@@ -207,56 +118,58 @@ function setViewMode(mode) {
 async function openFile(pathStr, addHistory) {
   const fileName = await navigateToFileDir(pathStr);
   const content = await window.api.readFile(fileName);
+
+  // Guarda el archivo anterior para posible limpieza
+  const previousFile = currentFilePath;
+
   currentFilePath = pathStr;
   currentFileName = fileName;
 
-  // Si no existe el estado del archivo, crearlo con modo "split" por defecto
+  // Inicializa el estado si es la primera vez
   if (!fileStates[currentFilePath]) {
     fileStates[currentFilePath] = { viewMode: 'split', edited: false };
   }
 
   fillEditor(content);
 
-  // Aplica la clase "split-view" si el modo es "split"
+  // Aplica split‐view si corresponde
   if (fileStates[currentFilePath].viewMode === 'split') {
     document.getElementById('editorContainer').classList.add('split-view');
   }
 
-  // Aquí evitamos reordenar la pestaña si no ha habido edición
-  const idx = openTabs.indexOf(pathStr);
-  if (idx === -1) {
-    // Si no está abierta, la agregamos al final
+  // — Evitar duplicados: solo añadimos si no está —
+  if (!openTabs.includes(pathStr)) {
     openTabs.push(pathStr);
-  } else if (fileStates[pathStr].edited) {
-    // Si ha habido edición, la movemos al final
-    openTabs.splice(idx, 1);
-    openTabs.push(pathStr);
+    await window.api.updateConfig({ currentOpenedFiles: openTabs });
   }
 
-  // Si cambiamos de archivo y no hubo edición, retiramos la pestaña del listado
-  if (currentFilePath !== pathStr && !fileStates[currentFilePath].edited) {
-    openTabs = openTabs.filter(p => p !== currentFilePath);
+  // — Si cambiamos de archivo y el anterior no fue editado, lo quitamos —
+  if (previousFile && previousFile !== pathStr && !fileStates[previousFile].edited) {
+    const i = openTabs.indexOf(previousFile);
+    if (i !== -1) {
+      openTabs.splice(i, 1);
+      await window.api.updateConfig({ currentOpenedFiles: openTabs });
+    }
   }
 
-  // Guardamos el nuevo estado de las pestañas abiertas
-  await window.api.updateConfig({ currentOpenedFiles: openTabs });
-
-  // Actualizamos el historial si es necesario
+  // Historial
   if (addHistory) {
-    history = history.filter(p => p !== pathStr);
-    history.push(pathStr);
+    history = history.filter(p => p !== pathStr).concat(pathStr);
     if (history.length > 100) history.shift();
     await window.api.updateConfig({ fileHistory: history });
   }
 
-  // Guardamos el archivo actual abierto
+  // Archivo actual en config
   await window.api.updateConfig({ currentFile: pathStr });
 
-  // Renderizamos las pestañas
+  // Re‑render UI
   renderTabs();
   highlightActiveFile();
   updateHistoryButtons();
 }
+
+
+
 
 
 // Inicialización

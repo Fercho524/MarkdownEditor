@@ -78,7 +78,7 @@
     addFavBtn.onclick = () => addFavInput();
 
     cancelBtn.onclick = () => {
-        window.api.navigateTo('index.html');
+        window.api.navigateTo('rendered/index.html');
     };
 
     applyBtn.onclick = async () => {
@@ -90,6 +90,6 @@
     acceptBtn.onclick = async () => {
         const updates = collectFormValues();
         await window.api.updateConfig(updates);
-        window.api.navigateTo('index.html');
+        window.api.navigateTo('rendered/index.html');
     };
 })();

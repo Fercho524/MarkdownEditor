@@ -1,3 +1,4 @@
+const os = require('os');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -8,6 +9,20 @@ const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const userDataPath = app.getPath('userData');
 const configPath = path.join(userDataPath, 'config.json');
 
+function getUserDocumentsDir() {
+  const homeDir = os.homedir();
+
+  // En Windows típicamente: C:\Users\<user>\Documents
+  // En Linux: /home/<user>/Documentos o /Documents
+  if (process.platform === 'win32') {
+    return path.join(homeDir, 'Documents');
+  } else {
+    const docsLinux = path.join(homeDir, 'Documentos');
+    return fs.existsSync(docsLinux)
+      ? docsLinux
+      : path.join(homeDir, 'Documents'); // fallback si no existe
+  }
+}
 function loadConfig() {
   try {
     if (fs.existsSync(configPath)) {
@@ -16,12 +31,15 @@ function loadConfig() {
   } catch (e) {
     console.error('Config inválido, recreando...', e);
   }
+
+  const defaultDir = getUserDocumentsDir();
+
   const defaultConfig = {
     currentOpenedFiles: [],
     currentFile: '',
-    favoriteDirs: [path.resolve('/home/darkplayer/Descargas/Notas')],
-    currentBaseDir: path.resolve('/home/darkplayer/Descargas/Notas'),
-    currentDir: path.resolve('/home/darkplayer/Descargas/Notas'),
+    favoriteDirs: [defaultDir],
+    currentBaseDir: defaultDir,
+    currentDir: defaultDir,
     fileHistory: [],
     globalThemeCSSPath: '',
     editorThemeCSSPath: '',
@@ -37,6 +55,7 @@ function loadConfig() {
       { keys: ['ctrl', 'v'], action: 'paste-image' }
     ]
   };
+
   fs.mkdirSync(userDataPath, { recursive: true });
   fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), 'utf-8');
   return defaultConfig;
@@ -51,7 +70,7 @@ function saveConfig() {
 app.setName('MarkdownEditor');
 
 let config = loadConfig();
-let currentBaseDir = config.currentBaseDir || (config.favoriteDirs[0] || path.resolve('/home/darkplayer/Descargas/Notas'));
+let currentBaseDir = config.currentBaseDir || (config.favoriteDirs[0] || getUserDocumentsDir());
 let currentDir = config.currentDir || currentBaseDir;
 
 function ensureInsideBase(target) {
@@ -82,11 +101,11 @@ function createWindow() {
     }
   });
 
-  win.loadURL(`file://${path.join(__dirname, 'index.html')}`);
+  win.loadURL(`file://${path.join(__dirname, 'rendered/index.html')}`);
 
   ipcMain.handle('open-settings', () => {
     // Si prefieres abrir en la misma ventana:
-    win.loadFile('settings.html');
+    win.loadFile('rendered/settings.html');
     // Si quisieras ventana nueva, invocarías createSettingsWindow()
   });
 
