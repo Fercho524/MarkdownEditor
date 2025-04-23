@@ -1,6 +1,3 @@
-// === notebar.js ===
-
-// Inicializa el select de directorios base
 async function initializeBaseDirSelect() {
   const select = document.getElementById('baseDirSelect');
   select.innerHTML = '';
@@ -23,13 +20,13 @@ async function renderDirFiles() {
   const fileUl = document.getElementById('files');
 
   // Aplicar clases de PhotonKit
-  dirUl.classList.add('list-group');
-  fileUl.classList.add('list-group');
+  dirUl.classList.add('nav-group');
+  fileUl.classList.add('nav-group');
 
   dirUl.innerHTML = '';
   ['..', ...dirs].forEach(name => {
     const li = document.createElement('li');
-    li.classList.add('list-group-item');
+    li.classList.add('nav-group-item');
     const icon = document.createElement('i');
     icon.classList.add('icon', name === '..' ? 'icon-level-up' : 'icon-folder');
     li.append(icon);
@@ -50,10 +47,17 @@ async function renderDirFiles() {
   files.forEach(name => {
     const rel = currentDir.replace(config.currentBaseDir + '/', '');
     const pathStr = rel ? `${rel}/${name}` : name;
+    
     const li = document.createElement('li');
-    li.classList.add('list-group-item'); li.dataset.path = pathStr;
-    const icon = document.createElement('i'); icon.classList.add('icon', 'icon-doc-text'); li.append(icon);
+    li.classList.add('nav-group-item');
+    li.dataset.path = pathStr;
+
+    // const icon = document.createElement('i');
+    // icon.classList.add('icon', 'icon-doc-text');
+    // li.append(icon);
+
     const span = document.createElement('span'); span.textContent = name; li.append(span);
+    
     li.classList.toggle('active', pathStr === currentFilePath);
     li.onclick = () => openFile(pathStr, true);
     li.oncontextmenu = e => { e.preventDefault(); window.api.showFileContextMenu(name); };

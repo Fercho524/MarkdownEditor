@@ -254,3 +254,32 @@
 .pane-sm {
     width: 30vw !important;
 }
+
+
+.nav-group-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#files li {
+    border-bottom: 1px solid darkgray;
+}
+
+#filesColumn {
+    border-left: 1px solid #bbbbbb;
+}
+
+#files, #files ul {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#tagList {
+    overflow-y: visible;
+}
+
+#tagListContainer {
+    margin-top: 20px;
+    max-height: 30vh;
+    overflow-y: auto;
+}

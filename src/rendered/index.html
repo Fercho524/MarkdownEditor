@@ -28,16 +28,132 @@
       <!-- Notebooks -->
       <div class="pane-sm sidebar" id="dirsColumn">
 
-        <div class="toolbar">
-          <select class="form-control" id="baseDirSelect"></select>
 
+
+        <!-- Toolbar and repo selector -->
+        <div class="toolbar">
+          <select class="btn btn-default btn-dropdown pull-right" id="baseDirSelect"></select>
           <button id="newDirBtn" class="btn btn-default">
             <span class="icon icon-plus-circled"></span>
           </button>
         </div>
 
-        <ul id="dirs"></ul>
+        <!-- General functions -->
+        <div class="nav-group">
+          <h5 class="nav-group-title">Home</h5>
+          <a class="nav-group-item active">
+            <span class="icon icon-home"></span>
+            Notebooks
+          </a>
+          <span class="nav-group-item">
+            <span class="icon icon-newspaper"></span>
+            All Notes
+          </span>
+          <span class="nav-group-item">
+            <span class="icon icon-flow-tree"></span>
+            Notes Graph
+          </span>
+          <span class="nav-group-item">
+            <span class="icon icon-folder"></span>
+            Repositories
+          </span>
+        </div>
 
+        <!-- Notebooks -->
+        <div class="nav-group">
+          <h5 class="nav-group-title">Notebooks</h5>
+        </div>
+        <ul class="nav-groups" id="dirs">
+        </ul>
+
+        <!-- Tags -->
+        <nav class="nav-group" id="tagListContainer">
+          <h5 class="nav-group-title">Tags</h5>
+          <div id="tagList">
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fc605b"></span>
+              Red
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fdbc40"></span>
+              Orange
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#34c84a"></span>
+              Green
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#57acf5"></span>
+              Blue
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fc605b"></span>
+              Red
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fdbc40"></span>
+              Orange
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#34c84a"></span>
+              Green
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#57acf5"></span>
+              Blue
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fc605b"></span>
+              Red
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fdbc40"></span>
+              Orange
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#34c84a"></span>
+              Green
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#57acf5"></span>
+              Blue
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fc605b"></span>
+              Red
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fdbc40"></span>
+              Orange
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#34c84a"></span>
+              Green
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#57acf5"></span>
+              Blue
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fc605b"></span>
+              Red
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#fdbc40"></span>
+              Orange
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#34c84a"></span>
+              Green
+            </span>
+            <span class="nav-group-item" href="#">
+              <span class="icon icon-record" style="color:#57acf5"></span>
+              Blue
+            </span>
+          </div>
+        </nav>
+
+        <!-- Config and other Buttons -->
         <div class="toolbar">
           <button class="btn btn-default" id="openSettingsBtn">
             <span class="icon icon-cog"></span>
@@ -54,8 +170,10 @@
         </div>
       </div>
 
+
       <!-- Notes -->
       <div class="pane-sm" id="filesColumn">
+
         <div class="nav-group">
           <div class="toolbar">
             <input id="noteSearch" class="form-control" type="text" placeholder="Search a note">
@@ -65,12 +183,19 @@
           </div>
           <ul class="list-group" id="files"></ul>
         </div>
+
       </div>
 
       <div class="pane" id="editorColumn">
 
         <!-- Pestañas -->
         <ul class="tab-group" id="tabs"></ul>
+
+        <!-- Editor -->
+        <div id="editorContainer">
+          <textarea id="editor" disabled placeholder="Selecciona un archivo..."></textarea>
+          <div id="content" class="rendered"></div>
+        </div>
 
         <!-- Toolbar y Botones -->
         <div class="toolbar">
@@ -97,11 +222,8 @@
             <button class="btn btn-default" id="saveBtn" disabled>
               <span class="icon icon-forward"></span>
             </button>
-           
-            
 
             <!-- Markdown elements -->
-
             <button class="btn btn-default" id="backBtn" disabled>
               <b>B</b>
             </button>
@@ -140,16 +262,8 @@
             </button>
           </div>
         </div>
-
-
-        <!-- Editor -->
-        <div id="editorContainer">
-          <textarea id="editor" disabled placeholder="Selecciona un archivo..."></textarea>
-          <div id="content" class="rendered"></div>
-        </div>
       </div>
     </div>
-
 
     <!-- Modal -->
     <dialog id="inputDialog">

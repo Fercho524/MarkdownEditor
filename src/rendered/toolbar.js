@@ -59,6 +59,7 @@ function bindToolbarEvents() {
 
   // Botón configuración
   document.getElementById('openSettingsBtn').onclick = () => {
+    alert("weboz")
     window.api.openSettings();
   };
 }
